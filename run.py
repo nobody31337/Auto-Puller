@@ -23,8 +23,6 @@ while len(repos) > 0:
         repo = git.Repo(repo)
         name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
 
-        print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Checking for Github update...')
-
         if repo.bare:
             print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Bare repository is not supported.\n')
             continue
@@ -34,6 +32,8 @@ while len(repos) > 0:
         except:
             print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
             continue
+
+        print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Checking for Github update...')
 
         remote.fetch()
 
