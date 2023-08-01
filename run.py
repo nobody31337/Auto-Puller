@@ -11,7 +11,7 @@ def repos_data_update():
     with open(path + '/repos.txt', 'r') as f:
         repos = []
         for line in map(lambda line: line.strip(), f.readlines()):
-            if not line.startswith('#') and not len(line) < 1:
+            if not line.startswith('#') and len(line) > 0:
                 repos.append(line)
 
 repos = []
