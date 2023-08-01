@@ -3,3 +3,4 @@
 /Github/Your-Repository-3/
 
 # Edit this file and rename it as "repos.txt"
+# The paths should better be absolute
