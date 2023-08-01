@@ -1,8 +1,18 @@
 import git
 import time
 
-with open('repos.txt', 'r') as f:
-    repos = list(map(lambda line: line.strip(), f.readlines()))
+def repos_data_update():
+    global repos
+    
+    with open('repos.txt', 'r') as f:
+        repos = []
+        for line in map(lambda line: line.strip(), f.readlines()):
+            if not line.startswith('#') and not len(line) < 1:
+                repos.append(line)
+
+repos = []
+
+repos_data_update()
 
 while len(repos) > 0:
     for repo in repos:
@@ -36,7 +46,6 @@ while len(repos) > 0:
         else:
             print(f'[ GIT UPDATE CHECK: {name} ] Update not found\n')
     
-    with open('repos.txt', 'r') as f:
-        repos = list(map(lambda line: line.strip(), f.readlines()))
+    repos_data_update()
 
     time.sleep(60)
