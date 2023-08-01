@@ -52,4 +52,4 @@ while len(repos) > 0:
     
     repos_data_update()
 
-    time.sleep(60)
+    time.sleep(10)
