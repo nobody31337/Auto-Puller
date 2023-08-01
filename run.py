@@ -1,3 +1,4 @@
+import os
 import git
 import time
 from datetime import datetime
@@ -5,7 +6,9 @@ from datetime import datetime
 def repos_data_update():
     global repos
 
-    with open('repos.txt', 'r') as f:
+    path = os.path.dirname(os.path.abspath(__file__))
+
+    with open(path + '/repos.txt', 'r') as f:
         repos = []
         for line in map(lambda line: line.strip(), f.readlines()):
             if not line.startswith('#') and not len(line) < 1:
