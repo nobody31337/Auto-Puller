@@ -23,11 +23,14 @@ def repos_data_update():
     path = os.path.dirname(os.path.abspath(__file__))
 
     ret = []
-
-    with open(path + '/repos.txt', 'r') as f:
-        for line in map(lambda line: line.strip(), f.readlines()):
-            if not line.startswith('#') and len(line) > 0:
-                ret.append(line)
+    try:
+        with open(path + '/repos.txt', 'r') as f:
+            for line in map(lambda line: line.strip(), f.readlines()):
+                if not line.startswith('#') and len(line) > 0:
+                    ret.append(line)
+    except:
+        print('repos.txt not found...')
+        exit(-1)
     
     return ret
 
