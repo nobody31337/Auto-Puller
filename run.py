@@ -124,6 +124,7 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
-        if "Couldn't connect to server" in str(sys.exc_info()[1]):
-            print('Internet connection lost.')
-        traceback.print_exc()
+        # if "unable to access" in str(sys.exc_info()[1]):
+        #     print('Internet connection lost.')
+        # traceback.print_exc()
+        print(sys.exc_info()[1])
