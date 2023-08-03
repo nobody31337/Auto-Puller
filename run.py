@@ -99,7 +99,9 @@ def main():
                     else:
                         status = 'Delete'
                     repo.git.add(change)
+
                     repo.index.commit(f'{status} {change}')
+                    
                     print(status, change)
                 
                 remote.push()
