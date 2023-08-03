@@ -2,6 +2,7 @@ import os
 import git
 import time
 import requests
+import traceback
 from datetime import datetime
 
 
@@ -60,7 +61,8 @@ def main():
             before = list(repo.iter_commits('HEAD'))
             after = list(repo.iter_commits('FETCH_HEAD'))
 
-            if before[0].hexsha != after[0].hexsha:
+            if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
+                print()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
 
                 remote.pull()
@@ -70,9 +72,41 @@ def main():
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update not found\n')
         
-        repos = repos_data_update()
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to push...')
 
-        time.sleep(10)
+            # diff = list(map(lambda d: f'{d.a_path} {d.b_path} {type(d.a_mode)} {d.b_mode}', repo.head.commit.diff(None)))
+            diff = list(reversed(repo.head.commit.diff(None)))
+
+            if len(diff) > 0:
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
+
+                for change in diff:
+                    repo.git.add(change.a_path)
+                    if change.a_mode > 0 and change.b_mode > 0:
+                        status = 'Update'
+                    elif change.a_mode == 0 and change.b_mode > 0:
+                        status = 'Create'
+                    elif change.a_mode > 0 and change.b_mode == 0:
+                        status = 'Delete'
+                    repo.index.commit(f'{status} {change.a_path}')
+                    print(status, change.a_path)
+                
+                for change in repo.untracked_files:
+                    if os.path.isfile(repo.working_tree_dir + f'/{change}'):
+                        status = 'Create'
+                    else:
+                        status = 'Delete'
+                    repo.git.add(change)
+                    repo.index.commit(f'{status} {change}')
+                    print(status, change)
+                
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!')
+            else:
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changed not found\n')
+            
+            repos = repos_data_update()
+
+        time.sleep(30)
 
 
 while check_internet():
@@ -81,4 +115,5 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
+        traceback.print_exc()
         print('Internet connection lost.')
