@@ -88,7 +88,9 @@ def main():
                         status = 'Create'
                     elif change.a_mode > 0 and change.b_mode == 0:
                         status = 'Delete'
+                    
                     repo.index.commit(f'{status} {change.a_path}')
+
                     print(status, change.a_path)
                 
                 for change in repo.untracked_files:
