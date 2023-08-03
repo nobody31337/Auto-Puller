@@ -55,7 +55,7 @@ def main():
                 continue
             
             try:
-                remote = repo.remote(rmeote_name)
+                remote = repo.remote(remote_name)
             except:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
                 continue
@@ -115,7 +115,7 @@ def main():
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
                 
 
-            if len(repo.head.commit.diff('origin')) > 0:
+            if len(repo.head.commit.diff(remote_name)) > 0:
                 remote.push()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed!\n')
             
