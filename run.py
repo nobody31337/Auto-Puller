@@ -77,7 +77,7 @@ def main():
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update not found\n')
         
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to push...')
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to commit...')
 
             diff = list(reversed(repo.head.commit.diff(None)))
 
