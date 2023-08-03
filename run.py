@@ -120,6 +120,7 @@ def main():
             
             repos = repos_data_update()
 
+        print('\n')
         time.sleep(30)
 
 
