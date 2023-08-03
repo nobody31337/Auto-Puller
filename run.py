@@ -3,7 +3,6 @@ import sys
 import git
 import json
 import time
-import traceback
 import requests
 from datetime import datetime
 
