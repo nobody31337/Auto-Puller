@@ -101,12 +101,12 @@ def main():
                     repo.git.add(change)
 
                     repo.index.commit(f'{status} {change}')
-                    
+
                     print(status, change)
                 
                 remote.push()
                 
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed and pushed!')
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changed not found\n')
             
