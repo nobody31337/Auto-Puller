@@ -41,7 +41,8 @@ def main():
     repos = repos_data_update()
 
     if len(repos) < 1:
-        print('Please refer to the example_repos.txt and add repository data to the repos.txt file.')
+        print('Please add repository data to the repos.txt file.')
+    
     while len(repos) > 0:
         for repo in repos:
             repo = git.Repo(repo)
