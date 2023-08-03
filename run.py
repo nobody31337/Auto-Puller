@@ -14,6 +14,7 @@ def check_internet():
             response = requests.get('https://google.com')
             response_code = response.status_code
         except:
+            print('Internet connection lost.')
             print('Waiting for the internet connection...')
             time.sleep(5)
     
@@ -117,4 +118,3 @@ while check_internet():
         exit()
     except:
         traceback.print_exc()
-        print('Internet connection lost.')
