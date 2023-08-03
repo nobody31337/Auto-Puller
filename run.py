@@ -1,9 +1,10 @@
 import os
 import sys
 import git
+import json
 import time
-import requests
 import traceback
+import requests
 from datetime import datetime
 
 
@@ -24,14 +25,13 @@ def check_internet():
 def repos_data_update():
     path = os.path.dirname(os.path.abspath(__file__))
 
-    ret = []
+    ret = {}
+
     try:
-        with open(path + '/repos.txt', 'r') as f:
-            for line in map(lambda line: line.strip(), f.readlines()):
-                if not line.startswith('#') and len(line) > 0:
-                    ret.append(line)
+        with open(path + '/data.json', 'r') as js:
+            ret = json.load(js)
     except:
-        print('repos.txt not found...')
+        print('data.json not found...')
         exit(-1)
     
     return ret
@@ -41,11 +41,13 @@ def main():
     repos = repos_data_update()
 
     if len(repos) < 1:
-        print('Please add repository data to the repos.txt file.')
+        print('Please add repository data to the data.json file.')
+        time.sleep(10)
+        exit(-1)
     
     while len(repos) > 0:
-        for repo in repos:
-            repo = git.Repo(repo)
+        for repo_data in repos['repos']:
+            repo = git.Repo(repo_data['path'])
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
 
             if repo.bare:
@@ -53,7 +55,7 @@ def main():
                 continue
             
             try:
-                remote = repo.remote('origin')
+                remote = repo.remote(repo_data['remote'])
             except:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
                 continue
@@ -128,7 +130,4 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
-        # if "unable to access" in str(sys.exc_info()[1]):
-        #     print('Internet connection lost.')
-        # traceback.print_exc()
         print(sys.exc_info()[1])
