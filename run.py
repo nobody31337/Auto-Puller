@@ -74,7 +74,6 @@ def main():
         
             print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to push...')
 
-            # diff = list(map(lambda d: f'{d.a_path} {d.b_path} {type(d.a_mode)} {d.b_mode}', repo.head.commit.diff(None)))
             diff = list(reversed(repo.head.commit.diff(None)))
 
             if len(diff) > 0:
