@@ -49,13 +49,13 @@ def main():
         for repo_data in repos['repos']:
             repo = git.Repo(repo_data['path'])
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
-
+            remote_name = repo_data['remote']
             if repo.bare:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Bare repository is not supported.\n')
                 continue
             
             try:
-                remote = repo.remote(repo_data['remote'])
+                remote = repo.remote(rmeote_name)
             except:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
                 continue
