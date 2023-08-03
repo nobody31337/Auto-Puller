@@ -1,4 +1,5 @@
 import os
+import sys
 import git
 import time
 import requests
@@ -123,4 +124,6 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
+        if "Couldn't connect to server" in sys.exc_info()[1]:
+            print('Internet connection lost.')
         traceback.print_exc()
