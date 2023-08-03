@@ -109,11 +109,13 @@ def main():
                 
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!\n')
 
-                if len(repo.head.commit.diff('origin')) > 0:
-                    remote.push()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully pushed!\n')
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
+                
+
+            if len(repo.head.commit.diff('origin')) > 0:
+                remote.push()
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully pushed!\n')
             
             repos = repos_data_update()
 
