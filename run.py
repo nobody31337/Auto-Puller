@@ -53,7 +53,7 @@ def main():
                 continue
             
             try:
-                remote = repo.remote("origin")
+                remote = repo.remote('origin')
             except:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
                 continue
