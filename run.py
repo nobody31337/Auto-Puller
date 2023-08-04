@@ -131,4 +131,4 @@ while check_internet():
         exit()
 
 
-main()
+while True: pass
