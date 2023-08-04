@@ -61,12 +61,7 @@ def main():
 
             print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Checking for Github update...')
 
-            try:
-                remote.fetch()
-            except:
-                print(sys.exc_info()[1])
-                print('')
-                continue
+            remote.fetch()
 
             before = list(repo.iter_commits('HEAD'))
             after = list(repo.iter_commits('FETCH_HEAD'))
