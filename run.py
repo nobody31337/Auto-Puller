@@ -129,6 +129,3 @@ while check_internet():
         main()
     except KeyboardInterrupt:
         exit()
-
-
-while True: pass
