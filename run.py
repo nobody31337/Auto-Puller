@@ -65,6 +65,7 @@ def main():
                 remote.fetch()
             except:
                 print(sys.exc_info()[1])
+                print('')
                 continue
 
             before = list(repo.iter_commits('HEAD'))
