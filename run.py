@@ -129,3 +129,5 @@ while check_internet():
         main()
     except KeyboardInterrupt:
         exit()
+    except:
+        print(sys.exc_info()[1])
