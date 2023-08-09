@@ -79,7 +79,7 @@ def main():
         
             print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to commit...')
 
-            diff = list(reversed(repo.head.commit.diff(None)))
+            diff = repo.head.commit.diff(None)
 
             if len(diff) > 0:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
