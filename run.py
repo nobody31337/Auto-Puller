@@ -45,6 +45,8 @@ def main():
         exit(-1)
     
     while len(repos) > 0:
+        repos = repos_data_update()
+        
         for repo_data in repos['repos']:
             repo = git.Repo(repo_data['path'])
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
@@ -117,9 +119,7 @@ def main():
             if len(repo.head.commit.diff(remote_name)) > 0:
                 remote.push()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
-            
-            repos = repos_data_update()
-
+        
         print('\n')
         time.sleep(30)
 
