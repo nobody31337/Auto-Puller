@@ -83,7 +83,7 @@ def main():
 
             diff = repo.head.commit.diff(None)
 
-            if len(diff) > 0:
+            if len(diff) + len(repo.untracked_files) > 0:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
 
                 for change in diff:
