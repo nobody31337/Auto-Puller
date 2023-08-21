@@ -72,6 +72,9 @@ def main():
                 print()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
 
+                for commit in after[:-before[0].count()]:
+                    print(commit.message)
+
                 remote.pull()
                 remote.update()
 
