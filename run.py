@@ -37,15 +37,13 @@ def repos_data_update():
 
 
 def main():
-    repos = repos_data_update()
-
-    if len(repos) < 1:
-        print('Please add repository data to the data.json file.')
-        time.sleep(10)
-        exit(-1)
-    
-    while len(repos) > 0:
+    while True:
         repos = repos_data_update()
+
+        if len(repos) < 1:
+            print('Please add repository data to the data.json file.')
+            time.sleep(10)
+            exit(-1)
         
         for repo_data in repos['repos']:
             repo = git.Repo(repo_data['path'])
@@ -133,4 +131,4 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
-        print(sys.exc_info()[1])
+        print(sys.exc_info())
