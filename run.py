@@ -4,6 +4,7 @@ import git
 import json
 import time
 import requests
+import traceback
 from datetime import datetime
 
 
@@ -46,7 +47,11 @@ def main():
             exit(-1)
         
         for repo_data in repos['repos']:
-            repo = git.Repo(repo_data['path'])
+            try:
+                repo = git.Repo(repo_data['path'])
+            except:
+                print(sys.exc_info[1])
+
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
             remote_name = repo_data['remote']
             if repo.bare:
@@ -115,7 +120,6 @@ def main():
 
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
-                
 
             if len(repo.head.commit.diff(remote_name)) > 0:
                 remote.push()
@@ -131,4 +135,4 @@ while check_internet():
     except KeyboardInterrupt:
         exit()
     except:
-        print(sys.exc_info())
+        traceback.print_exc()
