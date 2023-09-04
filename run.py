@@ -51,6 +51,7 @@ def main():
                 repo = git.Repo(repo_data['path'])
             except:
                 print(sys.exc_info[1])
+                continue
 
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
             remote_name = repo_data['remote']
@@ -70,6 +71,7 @@ def main():
                 remote.fetch()
             except:
                 print(sys.exc_info[1])
+                continue
 
             before = list(repo.iter_commits('HEAD'))
             after = list(repo.iter_commits('FETCH_HEAD'))
