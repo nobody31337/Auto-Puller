@@ -41,7 +41,7 @@ def main():
     while True:
         repos = repos_data_update()
 
-        if len(repos) < 1:
+        if 'repos' not in repos or len(repos['repos']) < 1:
             print('Please add repository data to the data.json file.')
             time.sleep(10)
             exit(-1)
@@ -54,7 +54,7 @@ def main():
                 continue
 
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
-            remote_name = repo_data['remote']
+            remote_name = repo_data['remote'] if 'remote' in repo_data else 'origin'
             if repo.bare:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Bare repository is not supported.\n')
                 continue
@@ -126,7 +126,6 @@ def main():
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
 
-            # if len(repo.head.commit.diff(remote_name)) > 0:
             if len(repo.git.log(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}')) > 0:
                 remote.push()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
