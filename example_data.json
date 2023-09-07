@@ -2,15 +2,14 @@
     "repos": [
         {
             "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-1",
-            "remote": "main"
-        },
-        {
-            "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-2",
             "remote": "origin"
         },
         {
-            "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-3",
-            "remote": "release"
+            "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-2",
+            "remote": "if the remote name is origin (which is the default name), you don't have to specify the remote name like below"
+        },
+        {
+            "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-3"
         }
     ]
     , "_remove_this_line": "Edit this json file and rename it as 'data.json'. The paths should better be absolute."
