@@ -126,7 +126,7 @@ def main():
             else:
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
 
-            if len(repo.git.log(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}')) > 0:
+            if len(list(repo.iter_commits(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}'))) > 0:
                 remote.push()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
         
