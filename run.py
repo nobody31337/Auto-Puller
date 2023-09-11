@@ -73,63 +73,67 @@ def main():
                 print(sys.exc_info()[1], end='\n\n')
                 continue
 
-            before = list(repo.iter_commits('HEAD'))
-            after = list(repo.iter_commits('FETCH_HEAD'))
+            pullmode = True
+            pushmode = True
 
-            if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
-                print()
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
+            if pullmode:
+                before = list(repo.iter_commits('HEAD'))
+                after = list(repo.iter_commits('FETCH_HEAD'))
 
-                for commit in after[:-before[0].count()]:
-                    print(commit.message)
+                if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
+                    print()
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
 
-                remote.pull()
-                remote.update()
+                    for commit in after[:-before[0].count()]:
+                        print(commit.message)
 
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Repository successfully updated!\n')
-            else:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update not found\n')
-        
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to commit...')
+                    remote.pull()
+                    remote.update()
 
-            diff = repo.head.commit.diff(None)
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Repository successfully updated!\n')
+                else:
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update not found\n')
 
-            if len(diff) + len(repo.untracked_files) > 0:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
+            if pushmode:
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to commit...')
 
-                for change in diff:
-                    repo.git.add(change.a_path)
-                    if change.a_mode > 0 and change.b_mode > 0:
-                        status = 'Update'
-                    elif change.a_mode == 0 and change.b_mode > 0:
-                        status = 'Create'
-                    elif change.a_mode > 0 and change.b_mode == 0:
-                        status = 'Delete'
+                diff = repo.head.commit.diff(None)
+
+                if len(diff) + len(repo.untracked_files) > 0:
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
+
+                    for change in diff:
+                        repo.git.add(change.a_path)
+                        if change.a_mode > 0 and change.b_mode > 0:
+                            status = 'Update'
+                        elif change.a_mode == 0 and change.b_mode > 0:
+                            status = 'Create'
+                        elif change.a_mode > 0 and change.b_mode == 0:
+                            status = 'Delete'
+
+                        repo.index.commit(f'{status} {change.a_path}')
+
+                        print(status, change.a_path)
+
+                    for change in repo.untracked_files:
+                        if os.path.isfile(repo.working_tree_dir + f'/{change}'):
+                            status = 'Create'
+                        else:
+                            status = 'Delete'
+                        repo.git.add(change)
+
+                        repo.index.commit(f'{status} {change}')
+
+                        print(status, change)
                     
-                    repo.index.commit(f'{status} {change.a_path}')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!\n')
+                else:
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
 
-                    print(status, change.a_path)
-                
-                for change in repo.untracked_files:
-                    if os.path.isfile(repo.working_tree_dir + f'/{change}'):
-                        status = 'Create'
-                    else:
-                        status = 'Delete'
-                    repo.git.add(change)
+                if len(list(repo.iter_commits(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}'))) > 0:
+                    remote.push()
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
 
-                    repo.index.commit(f'{status} {change}')
-
-                    print(status, change)
-                
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!\n')
-
-            else:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
-
-            if len(list(repo.iter_commits(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}'))) > 0:
-                remote.push()
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
-        
         print('\n')
         time.sleep(30)
 
