@@ -2,15 +2,22 @@
     "repos": [
         {
             "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-1",
-            "remote": "origin"
+            "remote": "origin",
+            "mode": "pull"
         },
         {
             "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-2",
-            "remote": "if the remote name is origin (which is the default name), you don't have to specify the remote name like below"
+            "remote": "release"
         },
         {
             "path": "C:\\Users\\User\\Documents\\GitHub\\Your-Repository-3"
         }
     ]
-    , "_remove_this_line": "Edit this json file and rename it as 'data.json'. The paths should better be absolute."
+    , "_remove_this_attribute": [
+        "Edit this json file and rename it as 'data.json'. The paths should be absolute.",
+        "The 'remote' attribute indicates the name of the remote. 'origin' is set as the default name.",
+        "If the 'mode' attribute is set as 'pull', it's pull only mode.",
+        "If the 'mode' attribute is set as 'push', it's push only mode.",
+        "If the 'mode' attribute is set as 'both' or it doesn't exist, it's both pull and push mode."
+    ]
 }
