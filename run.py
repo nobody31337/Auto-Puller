@@ -73,8 +73,9 @@ def main():
                 print(sys.exc_info()[1], end='\n\n')
                 continue
 
-            pullmode = True
-            pushmode = True
+            mode = repo_data['mode'] if 'mode' in repo_data else 'both'
+            pullmode = mode in ('pull', 'both')
+            pushmode = mode in ('push', 'both')
 
             if pullmode:
                 before = list(repo.iter_commits('HEAD'))
