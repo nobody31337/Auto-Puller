@@ -86,7 +86,7 @@ def main():
                     print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
 
                     for commit in after[:-before[0].count()]:
-                        print(commit.message)
+                        print(commit.message.strip())
 
                     remote.pull()
                     remote.update()
@@ -112,9 +112,11 @@ def main():
                         elif change.a_mode > 0 and change.b_mode == 0:
                             status = 'Delete'
 
-                        repo.index.commit(f'{status} {change.a_path}')
+                        commit_message = f'{status} {change.a_path}'
 
-                        print(status, change.a_path)
+                        repo.index.commit(commit_message)
+
+                        print(commit_message)
 
                     for change in repo.untracked_files:
                         if os.path.isfile(repo.working_tree_dir + f'/{change}'):
@@ -123,9 +125,11 @@ def main():
                             status = 'Delete'
                         repo.git.add(change)
 
-                        repo.index.commit(f'{status} {change}')
+                        commit_message = f'{status} {change}'
 
-                        print(status, change)
+                        repo.index.commit(commit_message)
+
+                        print(commit_message)
                     
                     print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!\n')
                 else:
