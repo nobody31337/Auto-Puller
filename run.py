@@ -56,16 +56,16 @@ def main():
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
             remote_name = repo_data['remote'] if 'remote' in repo_data else 'origin'
             if repo.bare:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Bare repository is not supported.\n')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nERROR: Bare repository is not supported.\n')
                 continue
             
             try:
                 remote = repo.remote(remote_name)
             except:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] ERROR: Remote not found\n')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nERROR: Remote not found\n')
                 continue
 
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Checking for Github update...')
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChecking for Github update...')
 
             try:
                 remote.fetch()
@@ -83,7 +83,7 @@ def main():
 
                 if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
                     print()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update found in Github!')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate found in Github!')
 
                     for commit in after[:-before[0].count()]:
                         print(commit.message.strip())
@@ -91,17 +91,17 @@ def main():
                     remote.pull()
                     remote.update()
 
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Repository successfully updated!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nRepository successfully updated!\n')
                 else:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Update not found\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate not found\n')
 
             if pushmode:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Looking for any change to commit...')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nLooking for any change to commit...')
 
                 diff = repo.head.commit.diff(None)
 
                 if len(diff) + len(repo.untracked_files) > 0:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes found!')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges found!')
 
                     for change in diff:
                         repo.git.add(change.a_path)
@@ -131,13 +131,13 @@ def main():
 
                         print(commit_message)
                     
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes successfully committed!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges successfully committed!\n')
                 else:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Changes not found\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges not found\n')
 
                 if len(list(repo.iter_commits(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}'))) > 0:
                     remote.push()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ] Commits successfully pushed to "{remote_name}"!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nCommits successfully pushed to "{remote_name}"!\n')
 
         print('\n')
         time.sleep(30)
