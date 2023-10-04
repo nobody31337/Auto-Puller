@@ -91,7 +91,7 @@ def main():
                     remote.pull()
                     remote.update()
 
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nRepository successfully updated!\n')
+                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nRepository successfully updated!\n')
                 else:
                     print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate not found\n')
 
@@ -131,7 +131,7 @@ def main():
 
                         print(commit_message)
                     
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges successfully committed!\n')
+                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges successfully committed!\n')
                 else:
                     print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges not found\n')
 
