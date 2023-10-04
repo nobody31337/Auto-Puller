@@ -56,16 +56,16 @@ def main():
             name = repo.working_tree_dir.split("\\")[-1].split("/")[-1]
             remote_name = repo_data['remote'] if 'remote' in repo_data else 'origin'
             if repo.bare:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nERROR: Bare repository is not supported.\n')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tERROR: Bare repository is not supported.\n')
                 continue
             
             try:
                 remote = repo.remote(remote_name)
             except:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nERROR: Remote not found\n')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tERROR: Remote not found\n')
                 continue
 
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChecking for Github update...\n')
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tChecking for Github update...\n')
 
             try:
                 remote.fetch()
@@ -83,7 +83,7 @@ def main():
 
                 if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
                     print()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate found in Github!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tUpdate found in Github!\n')
 
                     for commit in after[:-before[0].count()]:
                         print(commit.message.strip())
@@ -91,17 +91,17 @@ def main():
                     remote.pull()
                     remote.update()
 
-                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nRepository successfully updated!\n')
+                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tRepository successfully updated!\n')
                 else:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate not found\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tUpdate not found\n')
 
             if pushmode:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nLooking for any change to commit...\n')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tLooking for any change to commit...\n')
 
                 diff = repo.head.commit.diff(None)
 
                 if len(diff) + len(repo.untracked_files) > 0:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges found!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tChanges found!\n')
 
                     for change in diff:
                         repo.git.add(change.a_path)
@@ -131,13 +131,13 @@ def main():
 
                         print(commit_message)
                     
-                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges successfully committed!\n')
+                    print(f'\n{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tChanges successfully committed!\n')
                 else:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges not found\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tChanges not found\n')
 
                 if len(list(repo.iter_commits(f'{remote_name}/{repo.active_branch.name}..{repo.active_branch.name}'))) > 0:
                     remote.push()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nCommits successfully pushed to "{remote_name}"!\n')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tCommits successfully pushed to "{remote_name}"!\n')
 
         print('\n')
         time.sleep(30)
