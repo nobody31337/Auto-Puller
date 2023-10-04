@@ -65,7 +65,7 @@ def main():
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nERROR: Remote not found\n')
                 continue
 
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChecking for Github update...')
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChecking for Github update...\n')
 
             try:
                 remote.fetch()
@@ -83,7 +83,7 @@ def main():
 
                 if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
                     print()
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate found in Github!')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate found in Github!\n')
 
                     for commit in after[:-before[0].count()]:
                         print(commit.message.strip())
@@ -96,12 +96,12 @@ def main():
                     print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nUpdate not found\n')
 
             if pushmode:
-                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nLooking for any change to commit...')
+                print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nLooking for any change to commit...\n')
 
                 diff = repo.head.commit.diff(None)
 
                 if len(diff) + len(repo.untracked_files) > 0:
-                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges found!')
+                    print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\nChanges found!\n')
 
                     for change in diff:
                         repo.git.add(change.a_path)
