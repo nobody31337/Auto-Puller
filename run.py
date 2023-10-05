@@ -80,7 +80,7 @@ def main():
             before = list(repo.iter_commits('HEAD'))
             after = list(repo.iter_commits('FETCH_HEAD'))
 
-            if before[0].hexsha != after[0].hexsha and before[0].count() < after[0].count():
+            if before[0].hexsha != after[0].hexsha and before[0].count() <= after[0].count():
                 print()
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tUpdate found in Github!\n')
 
