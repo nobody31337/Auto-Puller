@@ -141,13 +141,12 @@ def main():
     print('\n')
 
 
-while True:
-    while check_internet():
-        try:
-            main()
-        except KeyboardInterrupt:
-            exit()
-        except:
-            traceback.print_exc()
-        
-        time.sleep(30)
+while check_internet():
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()
+    except:
+        traceback.print_exc()
+    
+    time.sleep(30)
