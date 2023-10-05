@@ -16,7 +16,7 @@ def check_internet():
             response = requests.get('https://google.com')
             response_code = response.status_code
         except:
-            print('Waiting for the internet connection...')
+            print('Waiting for the internet connection...\n')
             time.sleep(5)
     
     return True
