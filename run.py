@@ -95,7 +95,7 @@ def main():
                 print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tUpdate not found\n')
 
         if pushmode:
-            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tLooking for any change to commit...\n')
+            print(f'{datetime.now():%Y-%m-%d %H:%M:%S} [ GIT UPDATE CHECK: {name} ]\n\tLooking for changes to commit...\n')
 
             diff = repo.head.commit.diff(None)
 
