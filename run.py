@@ -17,7 +17,7 @@ def check_internet():
             response_code = response.status_code
         except:
             print('Waiting for the internet connection...\n')
-            time.sleep(5)
+            time.sleep(10)
     
     return True
 
