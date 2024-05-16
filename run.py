@@ -148,4 +148,4 @@ while check_internet():
     except:
         traceback.print_exc()
     
-    time.sleep(10)
+    # time.sleep(10)
